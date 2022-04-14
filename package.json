@@ -1,0 +1,26 @@
+{
+  "name": "static-site",
+  "version": "1.0.0",
+  "description": "application that generates a professional README file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yuri Ichikawa",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^6.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuriI92/readme-generator.git"
+  },
+  "keywords": [
+    "README",
+    "generator"
+  ],
+  "bugs": {
+    "url": "https://github.com/YuriI92/readme-generator/issues"
+  },
+  "homepage": "https://github.com/YuriI92/readme-generator#readme"
+}
