@@ -46,14 +46,44 @@ const questions = () => {
     ]);
 };
 
+const contactInfo = readmeData => {
+    if (!readmeData.contact) {
+        readmeData.contact = [];
+    }
+
+console.log(`
+===================
+Contact Information
+===================
+    `);
+    
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'github',
+            message: 'What is your GitHub username?'
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: 'What is your email address?'
+        }
+    ])
+    .then(contactData => {
+        readmeData.contact.push(contactData);
+        return readmeData;
+    });
+}
+
 const mockData = {
     title: 'README Generator',
-    description: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard. Cats go for world domination purr like an angel, humans,humans, humans oh how much they love us felines we are the center of attention they feed, they clean , or naughty running cat mrow why use post when this sofa is here but eat and than sleep on your face. Sit on human i love cats i am one wake up scratch humans leg for food then purr then i have a and relax yet loved it, hated it, loved it, hated it. Toy mouse squeak roll over missing until dinner time. All of a sudden cat goes crazy hide from vacuum cleaner so hiss at vacuum cleaner poop on couch make it to the carpet before i vomit mmmmmm.',
-    installation: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard. Cats go for world domination purr like an angel, humans,humans, humans oh how much they love us felines we are the center of attention they feed, they clean , or naughty running cat mrow why use post when this sofa is here but eat and than sleep on your face. Sit on human i love cats i am one wake up scratch humans leg for food then purr then i have a and relax yet loved it, hated it, loved it, hated it. Toy mouse squeak roll over missing until dinner time. All of a sudden cat goes crazy hide from vacuum cleaner so hiss at vacuum cleaner poop on couch make it to the carpet before i vomit mmmmmm.',
-    usage: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard. Cats go for world domination purr like an angel, humans,humans, humans oh how much they love us felines we are the center of attention they feed, they clean , or naughty running cat mrow why use post when this sofa is here but eat and than sleep on your face. Sit on human i love cats i am one wake up scratch humans leg for food then purr then i have a and relax yet loved it, hated it, loved it, hated it. Toy mouse squeak roll over missing until dinner time. All of a sudden cat goes crazy hide from vacuum cleaner so hiss at vacuum cleaner poop on couch make it to the carpet before i vomit mmmmmm.',
-    license: 'IBM Public License Version 1.0',
-    contributor: 'YuriI92',
-    tests: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard. Cats go for world domination purr like an angel, humans,humans, humans oh how much they love us felines we are the center of attention they feed, they clean , or naughty running cat mrow why use post when this sofa is here but eat and than sleep on your face. Sit on human i love cats i am one wake up scratch humans leg for food then purr then i have a and relax yet loved it, hated it, loved it, hated it. Toy mouse squeak roll over missing until dinner time. All of a sudden cat goes crazy hide from vacuum cleaner so hiss at vacuum cleaner poop on couch make it to the carpet before i vomit mmmmmm.'
+    description: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you.',
+    installation: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
+    usage: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
+    license: [ 'IBM Public License Version 1.0' ],
+    contribution: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
+    tests: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
+    contact: [ { github: 'YuriI92', email: 'yurichikawa1992@gmail.com' } ]
 };
 
 // TODO: Create a function to write README file
@@ -68,8 +98,12 @@ function writeToFile(fileName, data) {
     })
 };
 
-questions()    
-    .then(answers => generateMarkdown(mockData))  
+questions()
+    .then(contactInfo)
+    .then(answers => {
+        // console.log(answers);
+        return generateMarkdown(mockData);
+    })
     .then(content => writeToFile(fileName, content))
     .catch((err) => {
         if (err.isTtyError) {

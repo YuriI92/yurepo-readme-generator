@@ -39,12 +39,12 @@ const licenseArr = [
 ];
 
 function renderLicenseBadge(license, licenseArr) {
-  if (license === 'None' || !license) {
+  if (license[0] === 'None' || !license.length) {
     return '';
   }
   
   for (let i = 0; i < licenseArr.length; i++) {
-    if (licenseArr[i].license === license) {
+    if (licenseArr[i].license === license[0]) {
       const newArr = licenseArr[i];
       return '[![License: ' + newArr.name + '](https://img.shields.io/badge/License-' + newArr.imgLink + '-' + newArr.color + '.svg)](https://opensource.org/licenses/' + newArr.licenseLink + ')';
     };
@@ -60,19 +60,20 @@ function renderLicenseLink(newArr) {
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
 function renderLicenseSection(license) {
-  if (license === 'None' || !license) {
+  if (license[0] === 'None' || !license.length) {
     return '';
   }
 
   return `
   ## License
-  Licensed under the ${license}.
+  Licensed under the ${license[0]}.
   `
 }
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
   const { title, description, installation, usage, license, contribution, tests } = data;
+  const { github, email } = data.contact[0];
 
   return `
   # ${title}
@@ -100,6 +101,10 @@ function generateMarkdown(data) {
   ## Tests
   ${tests}
   
+  ## Questions
+  - GitHub Profile: https://github.com/${github}
+  - If you have any additional questions, please feel free to contact me by email.
+    E-mail Address: <${email}>
 `;
 }
 
