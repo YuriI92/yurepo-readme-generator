@@ -10,28 +10,68 @@ const questions = () => {
         {
             type: 'input',
             name: 'title',
-            message: 'What is the name of your project?'
+            message: 'What is the name of your project? (Required)',
+            validate: titleInput => {
+                if (titleInput) {
+                    return true;
+                } else {
+                    console.log('Please enter the name of your project!');
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
             name: 'description',
-            message: 'Provide a description of the project.'
+            message: 'Provide a description of the project. (Required)',
+            validate: descriptionInput => {
+                if (descriptionInput) {
+                    return true;
+                } else {
+                    console.log('Please provide a description!');
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
             name: 'installation',
-            message: 'Provide a installation instructions.'
+            message: 'Provide a installation instructions. (Required)',
+            validate: installationInput => {
+                if (installationInput) {
+                    return true;
+                } else {
+                    console.log('Please provide a installation instructions!');
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
             name: 'usage',
-            message: 'Provide a usage information.'
+            message: 'Provide a usage information. (Required)',
+            validate: usageInput => {
+                if (usageInput) {
+                    return true;
+                } else {
+                    console.log('Please provide a usage information!');
+                    return false;
+                }
+            }
         },
         {
             type: 'checkbox',
             name: 'license',
-            message: 'Which license do you want to include to your README file?',
-            choices: ['None', 'IBM Public License Version 1.0', 'MIT License', 'Mozilla Public License 2.0', 'Attribution License (BY)', 'Perl License']
+            message: 'Which license do you want to include to your README file? (Required)',
+            choices: ['None', 'IBM Public License Version 1.0', 'MIT License', 'Mozilla Public License 2.0', 'Attribution License (BY)', 'Perl License'],
+            validate: licenseInput => {
+                if (licenseInput) {
+                    return true;
+                } else {
+                    console.log('Please choose license or none!');
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
@@ -101,8 +141,8 @@ function writeToFile(fileName, data) {
 questions()
     .then(contactInfo)
     .then(answers => {
-        // console.log(answers);
-        return generateMarkdown(mockData);
+        console.log(answers);
+        return generateMarkdown(answers);
     })
     .then(content => writeToFile(fileName, content))
     .catch((err) => {

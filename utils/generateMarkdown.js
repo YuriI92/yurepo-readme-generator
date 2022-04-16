@@ -39,7 +39,7 @@ const licenseArr = [
 ];
 
 function renderLicenseBadge(license, licenseArr) {
-  if (license[0] === 'None' || !license.length) {
+  if (license[0] === 'None') {
     return '';
   }
   
@@ -60,7 +60,7 @@ function renderLicenseLink(newArr) {
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
 function renderLicenseSection(license) {
-  if (license[0] === 'None' || !license.length) {
+  if (license[0] === 'None') {
     return '';
   }
 
@@ -70,41 +70,110 @@ function renderLicenseSection(license) {
   `
 }
 
+const generateContribution = contribution => {
+  if (!contribution) {
+    return '';
+}
+
+  return `
+  ## Contributing
+  ${contribution}
+  `;
+}
+
+const generateTests = tests => {
+  if (!tests) {
+    return '';
+}
+
+  return `
+  ## Tests
+  ${tests}
+  `;
+}
+
+const generateQuestions = (github, email) => {
+  if (!github && !email) {
+    return '';
+  } else if (!github) {
+    return `
+    ## Questions
+    If you have any additional questions, please feel free to contact me by email.
+    E-mail Address: <${email}>
+    `;
+  } else if (!email) {
+    return `
+    ## Questions
+    GitHub Profile: https://github.com/${github}
+    `;
+  } else {
+    return `
+    ## Questions
+    - GitHub Profile: https://github.com/${github}
+    - If you have any additional questions, please feel free to contact me by email.
+      E-mail Address: <${email}>
+    `;
+  }
+}
+
+const generateContTable = (license, contribution, tests) => {
+  if (license[0] === 'None' && !contribution && !tests) {
+    return '';
+  } else if (!contribution && !tests) {
+    return `
+    - [License](#license)
+    `;
+  } else if (license[0] === 'None' && !tests) {
+    return `
+    - [Contributing](#contributing)
+    `;
+  } else if (license[0] === 'None' && !contribution) {
+    return `
+    - [Tests](#tests)
+    `;
+  } else if (!tests) {
+    return `
+    - [License](#license)
+    - [Contributing](#contributing)
+    `;
+  } else if (!contribution) {
+    return `
+    - [License](#license)
+    - [Tests](#tests)
+    `;
+  } else if (license[0] === 'None') {
+    return `
+    - [Contributing](#contributing)
+    - [Tests](#tests)
+    `;
+  }
+}
+
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
-  const { title, description, installation, usage, license, contribution, tests } = data;
+  const { license, contribution, tests, ...required } = data;
   const { github, email } = data.contact[0];
 
   return `
-  # ${title}
+  # ${required.title}
   ${renderLicenseBadge(license, licenseArr)}
 
   ## Description
-  ${description}
+  ${required.description}
 
   ## Table of Contents
   - [Installation](#installation)
   - [Usage](#usage)
-  - [License](#license)
-  - [Contributing](#contributing)
-  - [Tests](#tests)
-
+  ${generateContTable(license, contribution, tests)}
   ## Installation
-  ${installation}
+  ${required.installation}
 
   ## Usage
-  ${usage}
+  ${required.usage}
   ${renderLicenseSection(license)}
-  ## Contributing
-  ${contribution}
-
-  ## Tests
-  ${tests}
-  
-  ## Questions
-  - GitHub Profile: https://github.com/${github}
-  - If you have any additional questions, please feel free to contact me by email.
-    E-mail Address: <${email}>
+  ${generateContribution(contribution)}
+  ${generateTests(tests)}
+  ${generateQuestions(github, email)}
 `;
 }
 
