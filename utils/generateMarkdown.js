@@ -97,21 +97,21 @@ const generateQuestions = (github, email) => {
     return '';
   } else if (!github) {
     return `
-    ## Questions
-    If you have any additional questions, please feel free to contact me by email.
-    E-mail Address: <${email}>
+  ## Questions
+  If you have any additional questions, please feel free to contact me by email.
+  E-mail Address: <${email}>
     `;
   } else if (!email) {
     return `
-    ## Questions
-    GitHub Profile: https://github.com/${github}
+  ## Questions
+  GitHub Profile: https://github.com/${github}
     `;
   } else {
     return `
-    ## Questions
-    - GitHub Profile: https://github.com/${github}
-    - If you have any additional questions, please feel free to contact me by email.
-      E-mail Address: <${email}>
+  ## Questions
+  - GitHub Profile: https://github.com/${github}
+  - If you have any additional questions, please feel free to contact me by email.
+    E-mail Address: <${email}>
     `;
   }
 }
@@ -121,30 +121,36 @@ const generateContTable = (license, contribution, tests) => {
     return '';
   } else if (!contribution && !tests) {
     return `
-    - [License](#license)
+  - [License](#license)
     `;
   } else if (license[0] === 'None' && !tests) {
     return `
-    - [Contributing](#contributing)
+  - [Contributing](#contributing)
     `;
   } else if (license[0] === 'None' && !contribution) {
     return `
-    - [Tests](#tests)
+  - [Tests](#tests)
     `;
   } else if (!tests) {
     return `
-    - [License](#license)
-    - [Contributing](#contributing)
+  - [License](#license)
+  - [Contributing](#contributing)
     `;
   } else if (!contribution) {
     return `
-    - [License](#license)
-    - [Tests](#tests)
+  - [License](#license)
+  - [Tests](#tests)
     `;
   } else if (license[0] === 'None') {
     return `
-    - [Contributing](#contributing)
-    - [Tests](#tests)
+  - [Contributing](#contributing)
+  - [Tests](#tests)
+    `;
+  } else {
+    return `
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Tests](#tests)
     `;
   }
 }
