@@ -2,39 +2,34 @@
 // If there is no license, return an empty string
 const licenseArr = [
   {
-    license: 'IBM Public License Version 1.0',
-    name: 'IPL 1.0',
-    imgLink: 'IPL_1.0',
-    licenseLink: 'IPL-1.0',
-    color: 'blue'
+    license: 'Apache 2.0 License',
+    name: '',
+    imgLink: 'https://img.shields.io/badge/License-Apache_2.0-blue.svg',
+    licenseLink: 'https://opensource.org/licenses/Apache-2.0'
+  },
+  {
+    license: 'Eclipse Public License 1.0',
+    name: '',
+    imgLink: 'https://img.shields.io/badge/License-EPL_1.0-red.svg',
+    licenseLink: 'https://opensource.org/licenses/EPL-1.0'
   },
   {
     license: 'MIT License',
     name: 'MIT',
-    imgLink: 'MIT',
-    licenseLink: 'MIT',
-    color: 'yellow'
-  },
-  {
-    license: 'Mozilla Public License 2.0',
-    name: 'MPL 2.0',
-    imgLink: 'MPL_2.0',
-    licenseLink: 'MPL-2.0',
-    color: 'brightgreen'
+    imgLink: 'https://img.shields.io/badge/License-MIT-yellow.svg',
+    licenseLink: 'https://opensource.org/licenses/MIT'
   },
   {
     license: 'Attribution License (BY)',
     name: 'Open Data Commons Attribution',
-    imgLink: 'ODC_BY',
-    licenseLink: 'by',
-    color: 'brightgreen'
+    imgLink: 'https://img.shields.io/badge/License-ODC_BY-brightgreen.svg',
+    licenseLink: 'https://opendatacommons.org/licenses/by/'
   },
   {
     license: 'Perl License',
     name: 'Artistic-2.0',
-    imgLink: 'Perl',
-    licenseLink: 'Artistic-2.0',
-    color: '0298c3'
+    imgLink: 'https://img.shields.io/badge/License-Perl-0298c3.svg',
+    licenseLink: 'https://opensource.org/licenses/Artistic-2.0'
   }
 ];
 
@@ -46,7 +41,7 @@ function renderLicenseBadge(license, licenseArr) {
   for (let i = 0; i < licenseArr.length; i++) {
     if (licenseArr[i].license === license[0]) {
       const newArr = licenseArr[i];
-      return '[![License: ' + newArr.name + '](https://img.shields.io/badge/License-' + newArr.imgLink + '-' + newArr.color + '.svg)](https://opensource.org/licenses/' + newArr.licenseLink + ')';
+      return '[![License: ' + newArr.name + '](' + newArr.imgLink + ')](' + newArr.licenseLink + ')';
     };
   }
 }
@@ -64,10 +59,16 @@ function renderLicenseSection(license) {
     return '';
   }
 
-  return `
+  for (let i = 0; i < licenseArr.length; i++) {
+    if (licenseArr[i].license === license[0]) {
+      const licenseLink = licenseArr[i].licenseLink;
+
+      return `
   ## License
-  Licensed under the ${license[0]}.
-  `
+  Licensed under the [${license[0]}](${licenseLink}).
+      `;
+    };
+  }
 }
 
 const generateContribution = contribution => {
@@ -92,20 +93,9 @@ const generateTests = tests => {
   `;
 }
 
-const generateQuestions = (github, email) => {
-  if (!github && !email) {
+const generateQuestions = (confirm, github, email) => {
+  if (!confirm) {
     return '';
-  } else if (!github) {
-    return `
-  ## Questions
-  If you have any additional questions, please feel free to contact me by email.
-  E-mail Address: <${email}>
-    `;
-  } else if (!email) {
-    return `
-  ## Questions
-  GitHub Profile: https://github.com/${github}
-    `;
   } else {
     return `
   ## Questions
@@ -116,41 +106,86 @@ const generateQuestions = (github, email) => {
   }
 }
 
-const generateContTable = (license, contribution, tests) => {
-  if (license[0] === 'None' && !contribution && !tests) {
+const generateContTable = (license, contribution, tests, confirmContact) => {
+  if (license[0] === 'None' && !contribution && !tests && !confirmContact) {
     return '';
+  } else if (!contribution && !tests && !confirmContact) {
+    return `
+  - [License](#license)
+    `;
+  } else if (license[0] === 'None' && !tests && !confirmContact) {
+    return `
+  - [Contributing](#contributing)
+    `;
+  } else if (license[0] === 'None' && !contribution && !confirmContact) {
+    return `
+  - [Tests](#tests)
+    `;
+  } else if (license[0] === 'None' && !contribution && !tests) {
+  return `
+  - [Questions](#questions)
+  `;
+  } else if (!tests && !confirmContact) {
+    return `
+  - [License](#license)
+  - [Contributing](#contributing)
+    `;
+  } else if (!contribution && !confirmContact) {
+    return `
+  - [License](#license)
+  - [Tests](#tests)
+    `;
   } else if (!contribution && !tests) {
     return `
   - [License](#license)
+  - [Questions](#questions)
+    `;
+  } else if (license[0] === 'None' && !confirmContact) {
+    return `
+  - [Contributing](#contributing)
+  - [Tests](#tests)
     `;
   } else if (license[0] === 'None' && !tests) {
     return `
   - [Contributing](#contributing)
+  - [Questions](#questions)
     `;
   } else if (license[0] === 'None' && !contribution) {
     return `
+  - [Tests](#tests)
+  - [Questions](#questions)
+    `;
+  }
+  else if (!confirmContact) {
+    return `
+  - [License](#license)
+  - [Contributing](#contributing)
   - [Tests](#tests)
     `;
   } else if (!tests) {
     return `
   - [License](#license)
   - [Contributing](#contributing)
+  - [Questions](#questions)
     `;
   } else if (!contribution) {
     return `
   - [License](#license)
   - [Tests](#tests)
+  - [Questions](#questions)
     `;
   } else if (license[0] === 'None') {
     return `
   - [Contributing](#contributing)
   - [Tests](#tests)
-    `;
+  - [Questions](#questions)
+    `;  
   } else {
     return `
   - [License](#license)
   - [Contributing](#contributing)
   - [Tests](#tests)
+  - [Questions](#questions)
     `;
   }
 }
@@ -158,7 +193,7 @@ const generateContTable = (license, contribution, tests) => {
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
   const { license, contribution, tests, ...required } = data;
-  const { github, email } = data.contact[0];
+  const { confirmContact, github, email } = data.contact[0];
 
   return `
   # ${required.title}
@@ -170,7 +205,7 @@ function generateMarkdown(data) {
   ## Table of Contents
   - [Installation](#installation)
   - [Usage](#usage)
-  ${generateContTable(license, contribution, tests)}
+  ${generateContTable(license, contribution, tests, confirmContact)}
   ## Installation
   ${required.installation}
 
@@ -179,7 +214,7 @@ function generateMarkdown(data) {
   ${renderLicenseSection(license)}
   ${generateContribution(contribution)}
   ${generateTests(tests)}
-  ${generateQuestions(github, email)}
+  ${generateQuestions(confirmContact, github, email)}
 `;
 }
 

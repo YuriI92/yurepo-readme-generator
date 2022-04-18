@@ -63,13 +63,13 @@ const questions = () => {
             type: 'checkbox',
             name: 'license',
             message: 'Which license do you want to include to your README file? (Required)',
-            choices: ['None', 'IBM Public License Version 1.0', 'MIT License', 'Mozilla Public License 2.0', 'Attribution License (BY)', 'Perl License'],
-            validate: licenseInput => {
-                if (licenseInput) {
-                    return true;
+            choices: ['None', 'Apache 2.0 License', 'Eclipse Public License 1.0', 'MIT License', 'Attribution License (BY)', 'Perl License'],
+            validate: licenseCheck => {
+                if (licenseCheck.length < 1) {
+                    // console.log('Please choose license or none!');
+                    return 'Please choose license or none!';
                 } else {
-                    console.log('Please choose license or none!');
-                    return false;
+                    return true;
                 }
             }
         },
@@ -99,14 +99,50 @@ Contact Information
     
     return inquirer.prompt([
         {
+            type: 'confirm',
+            name: 'confirmContact',
+            message: 'Would you like to enter contact information for an "Question" section?',
+            default: true
+        },
+        {
             type: 'input',
             name: 'github',
-            message: 'What is your GitHub username?'
+            message: 'What is your GitHub username (Required)?',
+            validate: licenseInput => {
+                if (licenseInput) {
+                    return true;
+                } else {
+                    console.log('Please enter your GitHub username!');
+                    return false;
+                }
+            },
+            when: ({ confirmContact }) => {
+                if (confirmContact) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         },
         {
             type: 'input',
             name: 'email',
-            message: 'What is your email address?'
+            message: 'What is your email address? (Required)',
+            validate: licenseInput => {
+                if (licenseInput) {
+                    return true;
+                } else {
+                    console.log('Please enter your email address!');
+                    return false;
+                }
+            },
+            when: ({ confirmContact }) => {
+                if (confirmContact) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
     ])
     .then(contactData => {
