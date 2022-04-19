@@ -2,7 +2,8 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateMarkdown = require('./utils/generateMarkdown');
-const fileName = './README.md';
+const folderName = './dist'
+const fileName = './dist/README.md';
 
 // TODO: Create an array of questions for user input
 const questions = () => {
@@ -151,46 +152,48 @@ Contact Information
     });
 }
 
-const mockData = {
-    title: 'README Generator',
-    description: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you.',
-    installation: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
-    usage: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
-    license: [ 'IBM Public License Version 1.0' ],
-    contribution: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
-    tests: 'Cough furball then cats take over the world kitty power present belly, scratch hand when stroked i shredded your linens for you. Pooping rainbow while flying in a toasted bread costume in space stare at the wall, play with food and get confused by dust for try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.',
-    contact: [ { github: 'YuriI92', email: 'yurichikawa1992@gmail.com' } ]
-};
-
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, err => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-
-        console.log("Successfully generated README file!");
+const writeToFile = (fileName, data) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(fileName, data, err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+    
+            resolve({
+                ok: true,
+                message:'README file created!'
+            });
+        });
     })
 };
-
-questions()
-    .then(contactInfo)
-    .then(answers => {
-        console.log(answers);
-        return generateMarkdown(answers);
-    })
-    .then(content => writeToFile(fileName, content))
-    .catch((err) => {
-        if (err.isTtyError) {
-            console.log(err);
-        } else {
-            console.log(err);
-        }
-    });
 
 // TODO: Create a function to initialize app
-function init() {}
+const init = () => {
+    if (!fs.existsSync(folderName)) {
+        fs.mkdirSync(folderName);
+    }
+
+    questions()
+        .then(contactInfo)
+        .then(answers => {
+            return generateMarkdown(answers);
+        })
+        .then(content => {
+            return writeToFile(fileName, content);
+        })
+        .then(writeFileResponse => {
+            console.log(writeFileResponse);
+        })
+        .catch((err) => {
+            if (err.isTtyError) {
+                console.log(err);
+            } else {
+                console.log(err);
+            }
+        });
+}
 
 // Function call to initialize app
 init();
