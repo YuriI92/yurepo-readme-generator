@@ -1,5 +1,5 @@
 
-# README generator
+# YuRepo README generator
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
@@ -14,7 +14,7 @@ This is a command-line application for generating professional README file. You 
 ## Installation
 1) Install Node.js (https://nodejs.org/en/download/)
 2) ```bash
-   git clone git@github.com:YuriI92/readme-generator.git
+   git clone git@github.com:YuriI92/yurepo-readme-generator.git
    ```
 3) ```bash
    npm install inquirer
@@ -26,7 +26,14 @@ This is a command-line application for generating professional README file. You 
    node index
    ```
 2) Answer questions in the terminal.
-3) Copy the `README.md` created in `dist` folder into your project's folder.
+   ![Alt Text](./assets/images/YuRepoREADMEgenerator_walkthrough.gif)
+   - For "Required" questions, if no answer provided, it will give you error until you answer the question.
+   ![Alt Text](./assets/images/error_required-question.jpg)
+   ![Alt Text](./assets/images/error_required-license.jpg)
+   - Press "Enter" to skip questions that are not required.
+   - If you enter "no" for contact information, you will not be asked any further questions.
+   ![Alt Text](./assets/images/contact-info-no.jpg)
+3) Copy the `README.md` created in `dist` folder into your project's folder and check the outcome!
 
 ## License
 Licensed under the [MIT License](https://opensource.org/licenses/MIT).
