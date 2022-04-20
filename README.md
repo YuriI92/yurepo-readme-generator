@@ -12,18 +12,21 @@ This is a command-line application for generating professional README file. You 
 - [Questions](#questions)
 
 ## Installation
-1) Install Node\n2) Initialize node
+1) Install Node.js (https://nodejs.org/en/download/)
+2) Install Inquirer.js
+    - Type "npm install inquirer" in your command line prompt
 
 ## Usage
-3) Run the command "node index" in the terminal.\n4) Answer questions in the terminal.\n5) README file will be created in dist folder.\n6) Copy the file into your project's folder.
+1) Run the command "node index" in the terminal.
+2) Answer questions in the terminal.
+3) Copy the README file created in dist folder into your project's folder.
 
 ## License
 Licensed under the [MIT License](https://opensource.org/licenses/MIT).
         
-
-  ## Questions
-  - GitHub Profile: https://github.com/YuriI92
-  - If you have any additional questions, please feel free to contact me by email.
-    E-mail Address: <yurichikawa1992@gmail.com>
-      undefined
+## Questions
+- GitHub Profile: https://github.com/YuriI92
+- If you have any additional questions, please feel free to contact me by email.
+  E-mail Address: <yurichikawa1992@gmail.com>
+  
   
