@@ -1,11 +1,11 @@
 const { renderLicenseBadge, renderLicenseSection } = require('../src/generateLicense');
-const { storeContents, contentData, sectionsData } = require('../src/generateContents');
+const { storeContents } = require('../src/generateContents');
 
-const generateContTable = () => {
+const generateContTable = contentData => {
   return contentData;
 };
 
-const generateOtherSections = () => {
+const generateOtherSections = sectionsData => {
   return sectionsData;
 };
 
@@ -13,8 +13,7 @@ const generateOtherSections = () => {
 const generateMarkdown = data => {
   const { license, contribution, tests, ...required } = data;
   const { confirmContact, github, email } = data.contact[0];
-  console.log(confirmContact);
-  storeContents(license, contribution, tests, confirmContact, github, email);
+  const { contentData, sectionsData } = storeContents(license, contribution, tests, confirmContact, github, email);
 
   return `
 # ${required.title}
@@ -26,14 +25,14 @@ ${required.description}
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
-${generateContTable()}
+${generateContTable(contentData)}
 ## Installation
 ${required.installation}
 
 ## Usage
 ${required.usage}
 ${renderLicenseSection(license)}
-${generateOtherSections()}
+${generateOtherSections(sectionsData)}
   `;
 };
 
