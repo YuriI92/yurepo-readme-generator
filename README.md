@@ -25,8 +25,8 @@ This is a command-line application for generating professional README file. You 
    ```bash
    node index
    ```
-2) Answer questions in the terminal.
-   ![Alt Text](./assets/images/YuRepoREADMEgenerator_walkthrough.gif)
+2) Answer questions in the terminal.</br>
+   [Demonstration Video](https://drive.google.com/file/d/1hcN4GTSHx9UZd9WowhHaaTC2K8XVz5XI/view?usp=sharing)
    - For "Required" questions, if no answer provided, it will give you error until you answer the question.
    ![Alt Text](./assets/images/error_required-question.jpg)
    ![Alt Text](./assets/images/error_required-license.jpg)
