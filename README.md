@@ -23,7 +23,7 @@ This is a command-line application for generating professional README file. You 
 ## Usage
 1) Start creating file by the following command:
    ```bash
-   node index
+   npm start
    ```
 2) Answer questions in the terminal.</br>
    [Demonstration Video](https://drive.google.com/file/d/1hcN4GTSHx9UZd9WowhHaaTC2K8XVz5XI/view?usp=sharing)
